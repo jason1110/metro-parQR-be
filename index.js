@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 8080;
 
 const knex = require('knex')
-const config = require('./knexfile').development
+const config = require('./knexfile')[process.env.NODE_ENV || 'development']
 const database = knex(config)
 
 const { Model } = require('objection')

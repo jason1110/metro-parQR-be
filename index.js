@@ -27,6 +27,7 @@ app.get('/users', (_, response) => {
     .then(users => {
         response.json({ users }) 
     })
+    .catch(console.error());
 })
 app.get('/', (_, response) => {
         response.json('hello') 
@@ -36,6 +37,7 @@ app.get('/users/:id', (request, response) => {
     database('users')
         .where({ id: request.params.id })
         .then(users => response.json(users[0]))
+        .catch(console.error());
 })
 
 app.post('/users', createUser)

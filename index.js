@@ -55,6 +55,7 @@ function createUser(request, response) {
         })
         .returning(['id', 'name', 'email'])
         .then(users => response.json(users[0]))
+        .catch(console.error());
 }
 
 // app.patch

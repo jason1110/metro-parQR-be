@@ -28,6 +28,9 @@ app.get('/users', (_, response) => {
         response.json({ users }) 
     })
 })
+app.get('/', (_, response) => {
+        response.json('hello') 
+    })
 
 app.get('/users/:id', (request, response) => {
     database('users')
@@ -57,4 +60,4 @@ function createUser(request, response) {
 // app.delete
 
 
-app.listen(port, ()=> console.log('listening on 8080'))
+app.listen(port, ()=> console.log(`listening on ${port}`))

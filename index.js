@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 8080;
 
 const knex = require('knex')
-const config = require('./knexfile').development
+const config = require('./knexfile')[process.env.NODE_ENV || 'development']
 const database = knex(config)
 
 const { Model } = require('objection')
@@ -27,12 +27,34 @@ app.get('/users', (_, response) => {
     .then(users => {
         response.json({ users }) 
     })
+    .catch(console.error());
 })
+app.get('/', (_, response) => {
+        response.json('hello') 
+    })
 
 app.get('/users/:id', (request, response) => {
     database('users')
         .where({ id: request.params.id })
         .then(users => response.json(users[0]))
+        .catch(console.error());
+})
+
+app.post('/users', createUser)
+
+app.get('/meters', (_, response) => {
+    Meter.query()
+    .then(meters => {
+        response.json({ meters }) 
+    })
+    .catch(console.error());
+})
+
+app.get('/meters/:id', (request, response) => {
+    database('meters')
+        .where({ id: request.params.id })
+        .then(meters => response.json(meters[0]))
+        .catch(console.error());
 })
 
 app.post('/users', createUser)
@@ -50,6 +72,7 @@ function createUser(request, response) {
         })
         .returning(['id', 'name', 'email'])
         .then(users => response.json(users[0]))
+        .catch(console.error());
 }
 
 // app.patch
@@ -57,4 +80,4 @@ function createUser(request, response) {
 // app.delete
 
 
-app.listen(port, ()=> console.log('listening on 8080'))
+app.listen(port, ()=> console.log(`listening on ${port}`))

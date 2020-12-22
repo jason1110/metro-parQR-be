@@ -42,6 +42,23 @@ app.get('/users/:id', (request, response) => {
 
 app.post('/users', createUser)
 
+app.get('/meters', (_, response) => {
+    Meter.query()
+    .then(meters => {
+        response.json({ meters }) 
+    })
+    .catch(console.error());
+})
+
+app.get('/meters/:id', (request, response) => {
+    database('meters')
+        .where({ id: request.params.id })
+        .then(meters => response.json(meters[0]))
+        .catch(console.error());
+})
+
+app.post('/users', createUser)
+
 
 function createUser(request, response) {
     database('users')

@@ -5,18 +5,18 @@ const Meter = require('./Meter')
 class User extends Model {
     static tableName = 'users'
     static relationMappings = {
-        products: {
-            relation: Model.ManyToManyRelation,
+        meters: { 
+            relation: Model.HasOneThroughRelation,
             modelClass: Meter,
             join: {
-                from: "user.id",
+                from: "users.id",
                 through: {
-                    from: "parkingSession.user_id",
-                    to: "parkingSession.meter_id",
+                    from: "parkingSessions.user_id",
+                    to: "parkingSessions.meter_id",
                 },
-                to: "meter.id",
+                to: "meters.id",
             }
-        }
+        } 
     }
 }
 
